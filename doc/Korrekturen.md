@@ -11,9 +11,13 @@ Im Code werde ich die Korrekturen natürlich ebenfalls vornehmen; die Seitenzahl
 rule "Status Summary Aktuell"
 when
   Item Aussentemperatur changed or
-- Item Wetterlage changed
-+ Item Vorhersage_Wetterlage changed
+  Item Wetterlage changed
 then
- ...
+  var Number temp = ((Aussentemperatur.state as DecimalType).floatValue)
+- var lage = transform("MAP", "Wetterlage.map", Vorhersage_Wetterlage.state.toString)
++ var lage = transform("MAP", "Wetterlage.map", Wetterlage.state.toString)
+  var String Ausgabe = String::format("%s bei %.1f°C", lage, temp)
+  SummaryStateAktuell.postUpdate(Ausgabe)
+end
 ```
 <small>*(Dank an Frank S.)*</small>
