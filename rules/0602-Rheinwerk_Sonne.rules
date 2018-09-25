@@ -1,0 +1,25 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.2 Die ersten Schritte: Sonnenstand und Mondphasen mit dem Astro-Binding
+ * (S. 104 ff.)
+ */
+
+//--- Listing 6.11: Sonnenaufgang
+rule "Gute Morgen, Sonnenschein"
+  when
+    Channel 'astro:sun:rheinwerk-sonne:rise#event' triggered START
+  then
+    logInfo("Sonne", "Guten Morgen, Sonnenschein!")
+    // Es folgen beliebige weitere Anweisungen
+  end
+
+
+//--- Listing 6.12: Sonnenuntergang
+rule "Gute Nacht, Sonne"
+  when
+    Channel 'astro:sun:rheinwerk-sonne:set#event' triggered START
+  then
+    logInfo("Sonne", "Gute Nacht, liebe Sonne!")
+    // Es folgen beliebige weitere Anweisungen
+  end

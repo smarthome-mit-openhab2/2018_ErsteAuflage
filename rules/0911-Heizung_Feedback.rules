@@ -1,0 +1,19 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.11 Heizkörperthermostat HM-CC-RT-DN
+ * (S. 192 ff.)
+ */
+
+//--- Listing 9.22
+rule "Heizung Badezimmer: Temperatur okay?"
+when
+  Item Heizung_Badezimmer_ACTUALTEMP changed or
+  Item Heizung_Badezimmer_SET changed
+then
+  if (Heizung_Badezimmer_ACTUALTEMP.state >= Heizung_Badezimmer_SET.state) {
+    Heizung_Badezimmer_Feedback.postUpdate("okay")
+  } else {
+    Heizung_Badezimmer_Feedback.postUpdate("toolow")
+  }
+end

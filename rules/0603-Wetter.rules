@@ -1,0 +1,48 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.3 Wetterdaten via YAHOO!-Weather
+ * (S. 116 ff.)
+ */
+
+//--- Listing 6.17
+rule "Status Summary Wind"
+when
+  Item Windgeschwindigkeit changed or
+  Item Windrichtung changed
+then
+  var Number wg = ((Windgeschwindigkeit.state as DecimalType).floatValue)
+  var wr = transform("MAP", "Windrichtung.map", Windrichtung.state.toString)
+
+  var String Ausgabe = String::format("%1$.0f km/h aus " +wr, wg)
+  SummaryStateWind.postUpdate(Ausgabe)
+end
+
+//--- Listing 6.18
+rule "Status Summary Vorhersage"
+when
+  Item Vorhersage_Temperatur_Min changed or
+  Item Vorhersage_Temperatur_Max changed or
+  Item Vorhersage_Wetterlage changed
+then
+  var Number min = ((Vorhersage_Temperatur_Min.state as DecimalType).floatValue)
+  var Number max = ((Vorhersage_Temperatur_Max.state as DecimalType).floatValue)
+  var lage = transform("MAP", "Wetterlage.map", Vorhersage_Wetterlage.state.toString)
+  var String Ausgabe = String::format("%s bei %.0f bis %.0f°C",
+       lage,
+       min,
+       max)
+  SummaryStateVorhersage.postUpdate(Ausgabe)
+end
+
+//--- Listing 6.19
+rule "Status Summary Aktuell"
+when
+  Item Aussentemperatur changed or
+  Item Wetterlage changed
+then
+  var Number temp = ((Aussentemperatur.state as DecimalType).floatValue)
+  var lage = transform("MAP", "Wetterlage.map", Wetterlage.state.toString)
+  var String Ausgabe = String::format("%s bei %.1f°C", lage, temp)
+  SummaryStateAktuell.postUpdate(Ausgabe)
+end

@@ -1,0 +1,131 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.11 Pflanzenschutz – Jalousiesteuerung je nach Sonnenstand
+ * (S. 253 ff.)
+ */
+
+//--- Listing 13.19
+rule "Sonnenschutz Kernzeit"
+when
+  Item Azimut changed
+then
+  var int Sonnenstand = (Azimut.state as DecimalType).intValue
+  if (Sonnenstand >= 159 && Sonnenstand <= 209 && ¿
+    Sonnenschutz_Kernzeit.state != "ON") {
+    Sonnenschutz_Kernzeit.postUpdate(ON)
+  } else {
+    Sonnenschutz_Kernzeit.postUpdate(OFF)
+  }
+end
+
+//--- Listing 13.20
+rule "Sonne brennt"
+when
+  Item Differenz_2minus1 changed
+then
+  val Schwellwert = ((Differenz_2minus1.state as DecimalType).floatValue)
+  if (Schwellwert > 2.3 && Bewegungsmelder_Helligkeit.state > 160) {
+    Sonne_brennt.postUpdate(ON)
+  } else {
+    Sonne_brennt.postUpdate(OFF)
+  }
+end
+
+//--- Listing 13.21
+rule "Rollladen Szene"
+when
+  Item Rollladen_Szene received command
+then
+  logInfo("Rollladen", triggeringItem.name.toString + " sendete: " + receivedCommand.toString)
+
+  switch(receivedCommand.toString) {
+    case 1: {
+      gRollladen.members.forEach[s|
+        logDebug("Sonnenschutz", ":. " +s.name +" derzeit: " +s.state)
+        if(s.state != 0) {
+          logDebug("Sonnenschutz", "=> Rollladen AUF: " +s.name)
+          s.sendCommand(0)
+        }
+      ]
+    }
+
+    case 2: {
+      logDebug("Sonnenschutz", "Fenster: " + Wohnzimmer_Fenster_Rollladen.state)
+      if (Wohnzimmer_Fenster_Rollladen.state != 50) {
+        logDebug("Sonnenschutz", "Wohnzimmer_Fenster_Rollladen in Sonnenschutz Position")
+        Wohnzimmer_Fenster_Rollladen.sendCommand(50)
+      }
+
+      logDebug("Sonnenschutz", "Terrassentür: " + Wohnzimmer_Terrassentuer_Rollladen.state)
+      if (Wohnzimmer_Terrassentuer_Rollladen != 30) {
+        logDebug("Sonnenschutz", "Wohnzimmer_Terrassentuer_Rollladen in Sonnenschutz-Position")
+        Wohnzimmer_Terrassentuer_Rollladen.sendCommand(30)
+      }
+    }
+
+    case 3: {
+      gRollladen.members.forEach[s|
+        logDebug("Sonnenschutz", ":. " +s.name +" derzeit: " +s.state)
+        if (s.state != 100) {
+          logDebug("Sonnenschutz", "=> Rollladen ZU: " +s.name)
+          s.sendCommand(100)
+        }
+      ]
+    }
+  }
+
+Thread::sleep(20000)
+gRollladen.members.forEach[s|
+  logDebug("Sonnenschutz", ":. " +s.name +" ist nun " +s.state)
+]
+end
+
+//--- Listing 13.22
+rule "SCHLIESSE alle Rolllaeden"
+when
+  Channel 'astro:sun:rheinwerk-sonne:set#event' triggered START
+then
+  Rollladen_Szene.sendCommand(3)
+end
+
+//--- Listing 13.23
+rule "OEFFNE alle Rolllaeden"
+when
+  Channel 'astro:sun:rheinwerk-sonne:rise#event' triggered START or
+  Item Sonnenschutz_aktiv received command OFF
+then
+  Rollladen_Szene.sendCommand(1)
+end
+
+//--- Listing 13.24
+rule "Aktiviere Sonnenschutz"
+when
+  Item Sonnenschutz_aktiv received command ON
+then
+  Rollladen_Szene.sendCommand(2)
+end
+
+//--- Listing 13.25
+rule "Sonnenschutz aktivieren"
+when
+  Item Sonne_knallt changed to ON or
+  Item Sonnenschutz_Kernzeit changed to ON
+then
+  if (tVerzoegerung !== null) {
+    tVerzoegerung.cancel
+    tVerzoegerung = null
+  }
+
+  if (Sonnenschutz_Kernzeit.state == ON) {
+    if (Sonne_knallt.state == ON) {
+      if (Sonnenschutz_aktiv.state != ON) {
+        logDebug("Sonnenschutz", "Starte Timer...")
+        tVerzoegerung = createTimer(now.plusMinutes(5)) [|
+          Sonnenschutz_aktiv.sendCommand(ON)
+          logDebug("Sonnenschutz", ":. Kernzeit " +Sonnenschutz_Kernzeit.state +", Sonne " +Sonne_knallt.state +" => Sonnenschutz jetzt " +Sonnenschutz_aktiv.state)
+        ]
+      }
+    }
+  }
+end

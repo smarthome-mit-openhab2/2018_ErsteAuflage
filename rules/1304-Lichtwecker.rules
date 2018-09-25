@@ -1,0 +1,38 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.4 Für sanftes Erwachen – Ihr Lichtwecker
+ * (S. 235 ff.)
+ */
+
+//--- Listing 13.5
+rule "Lichtwecker"
+when
+  Time cron "0 14 11 ? * MON-FRI"
+then
+  logInfo("Lichtwecker", "Starte Lichtwecker-Logik...")
+  if(Urlaub.state != ON) {
+    logDebug("Lichtwecker", "Urlaubsmodus nicht aktiv.")
+    var Zielhelligkeit = 100
+    var Number Dimmerwert = 1
+
+    while (Dimmerwert < Zielhelligkeit) {
+      Lichtwecker_Helligkeit.sendCommand(Dimmerwert.intValue)
+      Thread::sleep(15000)
+
+      // prüfen, ob der Lichtwecker durch den User abgeschaltet wurde
+      var Dimmerstatus = (Lichtwecker_Helligkeit.state as DecimalType).intValue
+
+      if (Dimmerstatus == 0) {
+        Dimmerwert = 0
+        logInfo("Lichtwecker", "Abbruch durch Tastendruck.")
+        return;
+      } else {
+        Dimmerwert = Dimmerwert + 1
+        logInfo("Lichtwecker", "Dimmer +1 gesetzt auf " +Dimmerwert)
+      }
+    }
+    logInfo("Lichtwecker", "Zielhelligkeit erreicht.")
+    Rollladen_Szene.sendCommand(1)
+  } else logInfo("Lichtwecker", "Urlaubsmodus ist aktiviert.")
+end

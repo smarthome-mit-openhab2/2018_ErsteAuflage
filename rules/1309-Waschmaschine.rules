@@ -1,0 +1,68 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.9 Die twitternde, blinkende Waschmaschine
+ * (S. 246 ff.)
+ */
+
+var Timer tWaschmaschine = null
+
+rule "Setze maximale Leistung der Waschmaschine zurueck"
+when
+  Item Leistungsmesser_Schalter received update ON
+then
+  Waschmaschine_Maximal.postUpdate(0.00)
+end
+
+//--- Listing 13.13
+rule "Benachrichtigen, wenn die Waschmaschine fertig ist!"
+when
+  Item Leistungsmesser_Leistung changed
+then
+  var Number Aktuelle_Leistung = Leistungsmesser_Leistung.state as DecimalType
+  var Number Maximale_Leistung = Waschmaschine_Maximal.state as DecimalType
+
+  if(Aktuelle_Leistung == 0.00) {
+    Waschmaschine_Zustand.postUpdate("... ist aus!")
+  } else {
+    if(Aktuelle_Leistung > Maximale_Leistung) {
+      Maximale_Leistung = Aktuelle_Leistung
+      Waschmaschine_Maximal.postUpdate(Maximale_Leistung)
+      logDebug("Waschkeller", "Maximale Leistung: {}W.", Maximale_Leistung)
+    }
+
+    if(Aktuelle_Leistung < 20.00) {
+      if(Maximale_Leistung < 50.00) {
+        logDebug("Waschkeller", "Maschine ist programmiert.")
+        Waschmaschine_Zustand.postUpdate("... ist programmiert.")
+
+        if(tWaschmaschine!==null) {
+          logDebug("Waschkeller", "Loesche Timer...")
+          tWaschmaschine.cancel
+          tWaschmaschine = null
+        }
+      } else {
+        if(tWaschmaschine!==null) {
+          logDebug("Waschkeller", "Timer laeuft schon...")
+          Waschmaschine_Zustand.postUpdate("... ist fertig, Timer läuft.")
+        } else {
+          logDebug("Waschkeller", "Setze nun Timer - auf 10min!")
+          tWaschmaschine = createTimer(now.plusSeconds(600)) [|
+            logDebug("Waschkeller", "Sende Benachrichtigungen")
+            FunkgongLED_Ansteuern.sendCommand("1,8,108000,34,50")
+            sendTweet("@user Die Waschmaschine ist fertig (und hat in Spitze " +Maximale_Leistung +"W gezogen)!")
+            Leistungsmesser_Schalter.sendCommand(OFF)
+          ]
+        }
+      }
+    } else {
+      logDebug("Waschkeller", "Aktuelle Leistung " +Aktuelle_Leistung +"W.")
+      Waschmaschine_Zustand.postUpdate("... läuft gerade!")
+      if(tWaschmaschine!==null) {
+        logDebug("Waschkeller", "Loesche Timer...")
+        tWaschmaschine.cancel
+        tWaschmaschine = null
+      }
+    }
+  }
+end

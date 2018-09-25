@@ -1,0 +1,81 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.12 Heizroutinen
+ * (S. 264 ff.)
+ */
+
+//--- Listing 13.28
+val String Logname = "Heizroutinen.rules"
+val Number tempWarm = 23.0
+val Number tempWochenendtrip = 15.0
+val Number tempAus = 4.5
+
+rule "Heizmodus umschalten und Ventile einstellen"
+when
+  Item Sende_Update_an_Heizkoerper received command ON or
+  Item Heizmodus received update
+then
+  logInfo(Logname, "Heizmodus: " +Heizmodus.state)
+
+  switch Heizmodus.state {
+    case "NORMAL" : {
+      Heizung_Badezimmer_SET.sendCommand(NeueTemperatur.state as Number)
+    }
+
+    case "KRANK" : {
+      Heizung_Badezimmer_SET.sendCommand(tempWarm)
+    }
+
+    case "WOCHENENDTRIP" : {
+      Heizung_Badezimmer_SET.sendCommand(tempWochenendtrip)
+    }
+
+    case "AUS" : {
+      Heizung_Badezimmer_SET.sendCommand(tempAus)
+    }
+  }
+
+  Sende_Update_an_Heizkoerper.postUpdate(OFF)
+end
+
+//--- Listing 13.29
+rule "Wochenendtrip endet am Montag um 09:00 Uhr"
+when
+  Time cron "0 0 9 ? * MON *"
+then
+  if (Heizmodus.state == "WOCHENENDTRIP") {
+    logInfo(Logname, ":. Schaltung WOCHENENDTRIP wird verlassen")
+    Heizmodus.postUpdate("NORMAL")
+  }
+end
+
+//--- Listing 13.30
+rule "Krankentag endet um 2:00 Uhr"
+when
+  Time cron "0 0 2 ? * * *"
+then
+  if (Heizmodus.state == "KRANKENTAG") {
+    logInfo(Logname, ":. Schaltung KRANKENTAG wird verlassen")
+    Heizmodus.postUpdate("NORMAL")
+  }
+end
+
+//--- Listing 13.31
+rule "05:30 Badezimmer aufheizen (Wochentag)"
+when
+  Time cron "0 30 05 ? * MON-FRI *"
+then
+  logInfo(Logname, "Badezimmer aufheizen " +now.toString)
+  NeueTemperatur.postUpdate(23.0)
+  Sende_Update_an_Heizkoerper.sendCommand(ON)
+end
+
+rule "07:00 Badezimmer Heizung herunterregeln (Wochentag)"
+when
+  Time cron "0 0 07 ? * MON-FRI *"
+then
+  logInfo(Logname, "Badezimmer abkühlen: " +now.toString)
+  NeueTemperatur.postUpdate(18.0)
+  Sende_Update_an_Heizkoerper.sendCommand(ON)
+end

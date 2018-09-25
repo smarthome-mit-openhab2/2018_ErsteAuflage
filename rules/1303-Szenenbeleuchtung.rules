@@ -1,0 +1,32 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.3 Szenenbeleuchtung im Handumdrehen
+ * (S. 232 ff.)
+ */
+
+//--- Listing 13.4
+rule "Szenenbeleuchtung"
+when
+  Item Beleuchtung_Szene received command
+then
+  logInfo("Beleuchtung", ":. " +triggeringItem.name.toString +" erhielt Kommando " +receivedCommand.toString)
+  switch(receivedCommand.toString) {
+    case "1": {
+      logInfo("Beleuchtung", "=> Szene KONZENTRATION")
+      Lichtband_Farbtemperatur.sendCommand(11)
+      Lichtband_Helligkeit.sendCommand(100)
+    }
+
+    case "2": {
+      logInfo("Beleuchtung", "=> Szene ENTSPANNUNG")
+      Lichtband_Farbtemperatur.sendCommand(80)
+      Lichtband_Helligkeit.sendCommand(37)
+    }
+
+    case "3": {
+      logInfo("Beleuchtung", "=> Szene AUSSCHALTEN")
+      Lichtband_Schalter.sendCommand(OFF)
+    }
+  }
+end
