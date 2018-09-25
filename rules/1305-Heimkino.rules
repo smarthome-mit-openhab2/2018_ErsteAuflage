@@ -1,0 +1,48 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.5 Das Heimkino automatisiert beleuchten
+ * (S. 237 ff.)
+ */
+
+var SchwellwertMin = 10
+var SchwellwertMax = 90
+var Differenz = 5
+
+//--- Listing 13.6
+rule "Licht fast aus, wenn Kodi läuft..."
+when
+  Item Heimkino_Control changed to PLAY
+then
+  logInfo("Heimkino", "=> Licht aus, Film an!")
+  var Number etwasDunkler = Lichtband_Helligkeit.state as DecimalType
+
+  while(etwasDunkler > SchwellwertMin) {
+    etwasDunkler=etwasDunkler-Differenz
+    if (etwasDunkler < SchwellwertMin) etwasDunkler = SchwellwertMin
+    Lichtband_Helligkeit.sendCommand(etwasDunkler)
+    logDebug("Heimkino", "=> Beleuchtung minus " +Differenz +"...")
+    Thread::sleep(500)
+  }
+  
+  logInfo("Heimkino", ":. Beleuchtung auf " +etwasDunkler +"%, Schwellwert (" +SchwellwertMin +") erreicht.")
+end
+
+//--- Listing 13.7
+rule "Etwas Licht, wenn Kodi unterbricht..."
+when
+  Item Heimkino_Control changed to PAUSE
+then
+  logInfo("Heimkino", "=> Wiedergabe unterbrochen, Licht an.")
+  var Number etwasHeller = Lichtband_Helligkeit.state as DecimalType
+
+  while(etwasHeller < SchwellwertMax) {
+    etwasHeller = etwasHeller+Differenz
+    if (etwasHeller > SchwellwertMax) etwasHeller = SchwellwertMax
+    Lichtband_Helligkeit.sendCommand(etwasHeller)
+    logDebug("Heimkino", "=> Beleuchtung plus " +Differenz +"...")
+    Thread::sleep(300)
+  }
+
+  logInfo("Heimkino", ":. Beleuchtung auf " +etwasHeller +"%, Schwellwert (" +SchwellwertMax +") erreicht.")
+end

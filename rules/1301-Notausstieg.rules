@@ -1,0 +1,17 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.1 Notausstieg geöffnet? Alarmieren Sie!
+ * (S. 229 ff.)
+ */
+
+//--- Listing 13.1
+rule "Notausstiegsfenster geoeffnet"
+when
+  Item Notausstieg_Kontakt changed to OPEN or
+  Item Notausstieg_Kontakt_Sabotage changed to ON
+then
+  logInfo("Notausstieg", "ACHTUNG! Notausstieg geöffnet!")
+  sendTelegram("RheinwerkBot", "ACHTUNG! Notausstiegsfenster OFFEN!")
+  // Beliebige weitere Aktionen
+end

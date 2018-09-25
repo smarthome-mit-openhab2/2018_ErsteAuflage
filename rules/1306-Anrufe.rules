@@ -1,0 +1,26 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.6 Alternative Signalisierung Ihrer eingehenden Anrufe
+ * (S. 240 ff.)
+ */
+
+//--- Listing 13.8
+rule "Sende Nachricht per Telegram, wenn das Telefon klingelt"
+when
+  Item TelefonKlingelt changed to ON
+then
+  // Daten des Anrufes auslesen
+  val tmpAnruf1 = AnrufEingehend.state as StringListType
+  val AnruferNummer = tmpAnruf1.getValue(1).toString
+  val tmpAnruf2 = AnruferName.state as StringListType
+  val AnruferName = tmpAnruf2.getValue(1)
+
+  // Prüfen, ob der Anrufer unbekannt ist
+  if(AnruferName.startsWith("Name not found for")) {
+    AnruferName = "Unbekannter Anrufer"
+  }
+
+  sendTelegram("RheinwerkBot", "Juhu, Anruf von " +AnruferName +" (" +AnruferNummer +")!")
+  // Weitere beliebige Aktionen
+end

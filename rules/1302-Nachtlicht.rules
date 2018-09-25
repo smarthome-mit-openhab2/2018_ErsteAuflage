@@ -1,0 +1,28 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.2 Eine kleine Nachtlichtschaltung
+ * (S. 231 ff.)
+ */
+
+//--- Listing 13.2
+var Timer tNachtlicht = null
+var int Schwellwert = 45
+
+rule "Nachtlichtschaltung via Lichtband"
+when
+  Item Bewegungsmelder_Bewegung changed from OFF to ON
+then
+  if(Bewegungsmelder_Helligkeit.state < Schwellwert) {
+  // Sollte der Timer bereits gesetzt sein, wird er verworfen
+  if (tNachtlicht!== null) {
+    tNachtlicht.cancel
+    tNachtlicht = null
+  }
+  logDebug("Nachtlicht", "Schalte jetzt das Nachtlicht.")
+  Lichtband_Helligkeit.sendCommand(35)
+    tNachtlicht = createTimer(now.plusSeconds(180)) [|
+      Lichtband_Helligkeit.sendCommand(0)
+    ]
+  }
+end

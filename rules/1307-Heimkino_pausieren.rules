@@ -1,0 +1,56 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.7 Pausieren Sie die Heimkinowiedergabe bei Anrufen
+ * (S. 242 ff.)
+ */
+
+//--- Listing 13.9
+rule "Heimkino pausieren, wenn das Telefon klingelt"
+when
+  Item TelefonKlingelt changed to ON
+then
+  val tmpAnruf1 = AnrufEingehend.state as StringListType
+  val AnruferNummer = tmpAnruf1.getValue(1).toString
+
+  if (Heimkino_Control.state.toString == "PLAY") {
+    logDebug("AVM", "=> Pause, " +AnruferNummer +" ruft an!")
+    Heimkino_Control.sendCommand(PAUSE)
+    Heimkino_Bildschirmtext.sendCommand("Anruf von " +AnruferNummer)
+
+    if (Deckenlicht_Helligkeit < 35) {
+      Deckenlicht_Helligkeit.sendCommand(35)
+    }
+  } else logInfo("AVM", ":. Heimkino ist im Zustand " +Heimkino_Control.state)
+end
+
+//--- Listing 13.10
+rule "Jemand ruft an"
+when
+  Item TelefonKlingelt changed to ON
+then
+  val tmpAnruf1 = AnrufEingehend.state as StringListType
+  val AnruferNummer = tmpAnruf1.getValue(1).toString
+  val tmpAnruf2 = AnruferName.state as StringListType
+  val AnruferName = tmpAnruf2.getValue(1)
+
+  // Die Daten in die Items eintragen
+  LetzterAnruferNummer.postUpdate(AnruferNummer)
+  LetzterAnruferName.postUpdate(AnruferName)
+  logDebug("AVM", "Letzter Anrufer: " +AnruferNummer +" (" +AnruferName +")")
+
+  // Prüfen, ob der Anrufer unbekannt ist
+  if(AnruferName.startsWith("Name not found for")) {
+    AnruferName = "Unbekannter Anrufer"
+  }
+  if (Heimkino_Control.state.toString == "PLAY") {
+    logInfo("AVM", "Pausiere Wiedergabe, denn " +AnruferName +" (" +AnruferNummer +") ruft an!")
+    Heimkino_Control.sendCommand(PAUSE)
+    Heimkino_Bildschirmtext.sendCommand("Anruf: " +AnruferName +"(" +AnruferNummer +").")
+
+    if (Deckenlicht_Helligkeit < 35) Deckenlicht_Helligkeit.sendCommand(35)
+  } else {
+    logDebug("AVM", ":. Heimkino ist im Zustand " +Heimkino_Control.state)
+    sendTelegram("rheinwerk", "Juhu, Anruf von " +AnruferName +" (" +AnruferNummer +")!")
+  }
+end

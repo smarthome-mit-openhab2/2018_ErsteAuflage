@@ -1,0 +1,37 @@
+/* 20180925
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.8 Ihre individuelle Haustürklingel – so sorgen Sie für Aufmerksamkeit
+ * (S. 244 ff.)
+ */
+
+//--- Listing 13.11
+rule "Ein Besucher klingelt an der Haustuer"
+when
+  Item Haustuerklingel_Kurz changed from OFF to ON or
+  Item Haustuerklingel_Lang changed from OFF to ON
+then
+  var Stunde = now.getHourOfDay
+  Letzter_Besucher.postUpdate(new DateTimeType())
+
+  if (Stunde > 7 && Stunde < 22) {
+    FunkgongSound_Ansteuern.sendCommand("1.0,1,108000,0")
+    FunkgongLED_Ansteuern.sendCommand("1,5,108000,49,2")
+    sendTelegram("RheinwerkBot", "Es klingelt an der Haustür!")
+  } else logInfo("Haustuerklingel", ":. Es klingelt zu unvernünftiger Uhrzeit an der Haustür!")
+end
+
+//--- Listing 13.12
+rule "Wie oft hat es heute geklingelt?"
+when
+  Time cron "0 59 23 1/1 * ? *"
+then
+  var Lang = Haustuerklingel_Lang.sumSince(now.withTimeAtStartOfDay)
+  var Kurz = Haustuerklingel_Kurz.sumSince(now.withTimeAtStartOfDay)
+  var Summe = Lang + Kurz
+
+  if (Summe > 0 ) {
+    logInfo("Haustuerklingel", "Heute hat es " +Summe.toString +"x an der Haustür geklingelt.")
+    sendTweet("Heute hat es " +Summe.toString +"x an der Haustür geklingelt.")
+  } else logInfo("Haustuerklingel", "Heute hat es nicht geklingelt, das erzählen wir aber keinem!")
+end
