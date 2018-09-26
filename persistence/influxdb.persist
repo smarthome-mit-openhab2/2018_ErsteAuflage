@@ -1,0 +1,15 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 24.2 Erstellung von Graphen mit InfluxDB und Grafana
+ * (S. 439 ff.)
+ */
+
+//--- Listing 24.4
+Strategies {
+  default = everyChange
+}
+
+Items {
+  * : strategy = everyChange
+}

@@ -1,0 +1,16 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 24.1 Erstellung von Graphen über die interne Chart Engine
+ * (S. 435 ff.)
+ */
+
+//--- Listing 24.1
+Strategies {
+  everyMinute : "0 * * * * ?"
+  default    = everyMinute
+}
+
+Items {
+  * : strategy = everyMinute
+}
