@@ -1,0 +1,12 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 8.3 Anwesenheitserkennung anhand von Smartphones
+ * (S. 152 ff.)
+ */
+
+//--- Listing 8.4
+OPEN=anwesend
+CLOSED=nicht anwesend
+NULL=undefiniert
+-=unbekannt

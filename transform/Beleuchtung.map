@@ -1,0 +1,11 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 7 Integration von Philips Hue
+ * (S. 137 ff.)
+ */
+
+//--- Listing 7.1
+ON=ist an
+OFF=ist aus
+-=undefiniert

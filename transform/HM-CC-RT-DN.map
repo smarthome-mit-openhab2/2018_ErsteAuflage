@@ -1,0 +1,23 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.11 Heizkörperthermostat HM-CC-RT-DN
+ * (S. 192 ff.)
+ */
+
+//-- Listing 9.21
+// CONTROL_MODE
+AUTO-MODE=Automatik
+MANU-MODE=Schaltung über openHAB 2
+PARTY-MODE=Party-Modus
+BOOST-MODE=Boost
+// FAULT_REPORTING
+NO_FAULT=Kein Fehler
+VALVE_TIGHT=Ventil verkeilt
+ADJUSTING_RANGE_TOO_LARGE=ADJUSTING_RANGE_TOO_LARGE
+ADJUSTING_RANGE_TOO_SMALL=ADJUSTING_RANGE_TOO_SMALL
+COMMUNICATION_ERROR=Kommunikationsfehler
+LOWBAT=Batterie wechseln
+VALVE_ERROR_POSITION=Ventilposition
+// UNSET
+-=-undefiniert-

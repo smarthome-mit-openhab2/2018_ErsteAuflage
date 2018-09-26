@@ -1,0 +1,40 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.3 Wetterdaten via YAHOO!-Weather
+ * (S. 116 ff.)
+ */
+
+//--- Listing 6.16
+thunder = Gewitter
+storm = Sturm
+rain-and-snow = Regen und Schnee
+rain-and-sleet = Regen und Schneeregen
+snow-and-sleet = Schnee und Schneeregen
+freezing-drizzle = Gefrierender Nieselregen
+few-showers = Nieselregen
+freezing-rain = Überfrierende Nässe
+rain = Regen
+snow-flurries = Schneegestöber
+light-snow = Leichte Schneeschauer
+blowing-snow = Schneetreiben
+snow = Starker Schneefall
+sleet = Schneeregen
+dust = Staub
+fog = Nebel
+wind = Stürmisch
+cold = Kalt
+cloudy = Bewölkt
+mostly-cloudy-night = Überwiegend bewölkte Nacht
+mostly-cloudy-day = Überwiegend bewölkt
+partly-cloudy-night = Teilweise bewölkte Nacht
+partly-cloudy-day = Teilweise bewölkt
+clear-night = Sternklare Nacht
+sunny = Heiter
+hot = Heiß
+scattered-thunder = Vereinzelte Gewitter
+scattered-showers = Vereinzelte Niederschläge
+thundershowers = Gewitterregen
+snow-showers = Schneefall
+scattered-thundershowers = Vereinzelte Gewitter
+-=undefiniert

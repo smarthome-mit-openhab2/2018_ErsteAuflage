@@ -1,0 +1,14 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.1.2 Der Channel SIGNAL_STRENGTH
+ * (S. 163 ff.)
+ */
+
+//--- Listing 9.1
+0=kein Signal
+1=schwaches Signal
+2=durchschnittlich
+3=gut
+4=hervorragend
+-=undefiniert

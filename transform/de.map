@@ -1,0 +1,9 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ */
+
+CLOSED=zu
+OPEN=offen
+NULL=undefiniert
+-=undefiniert

@@ -1,0 +1,10 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 13.11.6 Die Sonnenschutzlogik in der Sitemap
+ * (S. 262 ff.)
+ */
+
+ON=aktiv
+OFF=nicht aktiv
+-=unklar

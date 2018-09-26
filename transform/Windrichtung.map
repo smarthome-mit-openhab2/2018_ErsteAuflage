@@ -1,0 +1,25 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.3 Wetterdaten via YAHOO!-Weather
+ * (S. 116 ff.)
+ */
+
+//--- Listing 6.14
+N = Nord
+NNE = Nord Nordost
+NE = Nordost
+ENE = Ost Nordost
+E = Ost
+ESE = Ost Südost
+SE = Südost
+SSE = Süd Südost
+S = Süd
+SSW = Süd Südwest
+SW = Südwest
+WSW = West Südwest
+W = West
+WNW = West Nordwest
+NW = Nordwest
+NNW = Nord Nordwest
+-=undefiniert

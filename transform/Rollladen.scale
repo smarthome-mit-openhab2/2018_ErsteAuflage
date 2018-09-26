@@ -1,0 +1,12 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.7 Rollladenaktor HM-LC-Bl1PBU-FM
+ * (S. 185 ff.)
+ */
+
+//--- Listing 9.14
+[..6]=offen
+[7..94]=abgesenkt
+[95..100]=geschlossen
+[..]=undefiniert

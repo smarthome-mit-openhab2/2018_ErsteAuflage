@@ -1,0 +1,15 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.3 Wetterdaten via YAHOO!-Weather
+ * (S. 116 ff.)
+ */
+
+//--- Listing 6.15
+[..0]=undefiniert
+]0..2]=niedrig
+]2..5]=mäßig
+]5..7]=hoch
+]7..10]=sehr hoch
+]10..]=extrem
+[..]=undefiniert
