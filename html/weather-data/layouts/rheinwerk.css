@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+body {
+  font-size: 14px;
+  font-family: Helvetica, sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+table {
+  border-spacing: 0px;
+  border: 0px;
+  padding: 0px;
+  width: 1px;
+}
+
+#weather-table {
+  padding-bottom: 10px;
+}
+
+#weather-location-name {
+  font-size: 8px;
+  padding-bottom: 10px;
+  font-style: italic;
+}
+
+#weather-icon {
+  width: 90px;
+  height: 90px;
+  padding-right: 5px;
+}
+
+#weather-temp {
+  font-family: 'VT323', serif;
+  font-size: 48px;
+  color: #f600ff;
+  width: 1px;
+}
+
+#weather-temp-sign {
+  vertical-align: top;
+  color: #f600ff;
+  padding-top: 9px;
+  font-size: 16px;
+}
+
+#weather-table-details {
+  font-size: 12px;
+}
+
+#weather-table-details td {
+  white-space: nowrap;
+}
+
+#weather-forecast-table img {
+  width: 70px;
+  height: 70px;
+}
+
+#weather-forecast-table td {
+  text-align: center;
+}
+
+#weather-forecast-table .temp-max {
+  font-family: 'VT323', serif;
+  font-size: 20px;
+  color: #E39B89;
+}
+
+#weather-forecast-table .temp-min {
+  font-family: 'VT323', serif;
+  font-size: 20px;
+  color: #3CB371;
+}
+
+#weather-forecast-table .rain-mm {
+  font-family: 'VT323', serif;
+  font-size: 20px;
+  color: #22C4D2;
+}

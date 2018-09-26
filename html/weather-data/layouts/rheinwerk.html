@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" CONTENT="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="/static/weather-data/layouts/rheinwerk.css" />
+  <script type="text/javascript" src="/static/weather-data/layouts/rheinwerk.js"></script>
+</head>
+
+<body id="weather-body" onload="formatIframe()">
+  <div id="weather-location-name">${config:name}, ${weather:condition.observationTime(%1$td.%1$tm.%1$tY %1$tH:%1$tM)}</div>
+
+  <table id="weather-table">
+  <tr>
+    <td rowspan="2"><img id="weather-icon" src="/static/weather-data/images/${param:iconset}/${weather:condition.commonId}.png"/></td>
+    <td id="weather-temp">${weather:temperature.current(%.1f)}</td>
+    <td id="weather-temp-sign">°C</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+
+      <table id="weather-table-details">
+        <tr><td>Luftfeuchte:</td><td>${weather:atmosphere.humidity} %</td></tr>
+        <tr><td>Luftdruck:</td><td>${weather:atmosphere.pressure(%.1f)} mPh</td></tr>
+        <tr><td>Wind:</td><td>${weather:wind.speed(%.2f)} km/h aus ${weather:wind.direction}</td></tr>
+        <tr><td>Sichtweite:</td><td>${weather:atmosphere.visibility(%.2f)} km</td></tr>
+      </table>
+
+    </td>
+  </tr>
+  </table>
+
+  <table id="weather-forecast-table">
+  <tr>
+    <td></td>
+    <td>Heute</td>
+    <td>${forecast(1):condition.observationTime(%1$tA)}</td>
+    <td>${forecast(2):condition.observationTime(%1$tA)}</td>
+    <td>${forecast(3):condition.observationTime(%1$tA)}</td>
+    <!-- <td>${forecast(4):condition.observationTime(%1$tA)}</td> -->
+  </tr>
+  <tr>
+    <td></td>
+    <td><img src="/static/weather-data/images/${param:iconset}/${forecast(0):condition.commonId}.png"/></td>
+    <td><img src="/static/weather-data/images/${param:iconset}/${forecast(1):condition.commonId}.png"/></td>
+    <td><img src="/static/weather-data/images/${param:iconset}/${forecast(2):condition.commonId}.png"/></td>
+    <td><img src="/static/weather-data/images/${param:iconset}/${forecast(3):condition.commonId}.png"/></td>
+    <!-- <td><img src="/static/weather-data/images/${param:iconset}/${forecast(4):condition.commonId}.png"/></td> -->
+  </tr>
+  <tr>
+    <td class="temp-max">max <br /></td>
+    <td class="temp-max">${forecast(0):temperature.max(%.0f)}</td>
+    <td class="temp-max">${forecast(1):temperature.max(%.0f)}</td>
+    <td class="temp-max">${forecast(2):temperature.max(%.0f)}</td>
+    <td class="temp-max">${forecast(3):temperature.max(%.0f)}</td>
+    <!-- <td class="temp-max">${forecast(4):temperature.max(%.0f)}</td> -->
+  </tr>
+  <tr>
+    <td class="temp-min">min <br /></td>
+    <td class="temp-min">${forecast(0):temperature.min(%.0f)}</td>
+    <td class="temp-min">${forecast(1):temperature.min(%.0f)}</td>
+    <td class="temp-min">${forecast(2):temperature.min(%.0f)}</td>
+    <td class="temp-min">${forecast(3):temperature.min(%.0f)}</td>
+    <!-- <td class="temp-min">${forecast(4):temperature.min(%.0f)}</td> -->
+  </tr>
+  <tr>
+    <td class="rain-mm">Regen <br/></td>
+    <td class="rain-mm">${forecast(0):precipitation.rain(%.0f)}</td>
+    <td class="rain-mm">${forecast(1):precipitation.rain(%.0f)}</td>
+    <td class="rain-mm">${forecast(2):precipitation.rain(%.0f)}</td>
+    <td class="rain-mm">${forecast(3):precipitation.rain(%.0f)}</td>
+  </tr>
+  </table>
+
+</body>
+</html>
