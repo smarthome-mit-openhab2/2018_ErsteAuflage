@@ -1,0 +1,41 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.3 MP3-Funkgong
+ * (S. 167 ff.)
+ */
+
+Group gFunkgong
+  "HomeMatic Funkgong"
+  <siren>
+  (GF_Kitchen)
+
+Number Funkgong_Signalstaerke
+  "Funkgong Signalstärke [%s]"
+  <qualityofservice>
+  (gFunkgong, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-OU-CFM-Pl:...#SIGNAL_STRENGTH"}
+
+Switch FunkgongLED
+  "Funkgong LED"
+  <siren>
+  (gFunkgong)
+  // Anpassen: {channel="homematic:HM-OU-CFM-Pl:...#STATE"}
+
+String FunkgongLED_Ansteuern
+  "Funkgong LED ansteuern"
+  <siren>
+  (gFunkgong)
+  // Anpassen: {channel="homematic:HM-OU-CFM-Pl:...#SUBMIT"}
+
+Switch FunkgongSound
+  "Funkgong Soundmodul"
+  <soundvolume>
+  (gFunkgong)
+  // Anpassen: {channel="homematic:HM-OU-CFM-Pl:...#STATE"}
+
+String FunkgongSound_Ansteuern
+  "Alarm Sound Submit"
+  <soundvolume>
+  (gFunkgong)
+  // Anpassen: {channel="homematic:HM-OU-CFM-Pl:...#SUBMIT"}

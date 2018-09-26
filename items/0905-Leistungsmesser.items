@@ -1,0 +1,64 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.5 Leistungsmesser HM-ES-PMSw1-Pl
+ * (S. 176 ff.)
+ */
+
+Group gLeistungsmesser
+  "Leistungsmesser Zwischenstecker"
+  <energy>
+  (UG_Waschkeller)
+
+Number Leistungsmesser_Signalstaerke
+  "Leistungsmesser Signalstärke [%s]"
+  <qualityofservice>
+  (gLeistungsmesser, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#SIGNAL_STRENGTH"}
+
+Switch Leistungsmesser_Schalter
+  "Waschmaschine: Schaltzustand Zwischenstecker"
+  <poweroutlet-eu>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#STATE"}
+
+Number Leistungsmesser_Leistung
+  "Waschmaschine: aktueller Verbrauch [%.2f W]"
+  <washingmachine>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#POWER"}
+
+Number Leistungsmesser_Strom
+  "Waschmaschine: Strom [%.2f mA]"
+  <energy>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#CURRENT"}
+
+Number Leistungsmesser_Spannung
+  "Waschmaschine: Netzspannung [%.2f V]"
+  <energy>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#VOLTAGE"}
+
+Number Leistungsmesser_Frequenz
+  "Waschmaschine: Netzfrequenz [%.2f Hz]"
+  <energy>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#FREQUENCY"}
+
+Number Leistungsmesser_Energiezaehler
+  "Waschmaschine: Energiezähler"
+  <energy>
+  (gLeistungsmesser)
+  // Anpassen: {channel="homematic:HM-ES-PMSw1-Pl:...#ENERGY_COUNTER"}
+
+// 13.8 - Waschmaschine.rules
+Number Waschmaschine_Maximal
+  "Waschmaschine: Maximale Leistung dieses Waschgangs [%.2f W]"
+  <line>
+  (gLeistungsmesser)
+
+String Waschmaschine_Zustand
+  "Waschmaschine... [%s]"
+  <washingmachine>
+  (gLeistungsmesser)

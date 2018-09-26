@@ -1,0 +1,83 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.11 Heizkörperthermostat HM-CC-RT-DN
+ * (S. 192 ff.)
+ */
+
+Group gHeizungBad
+"Heizkörper Badezimmer"
+<radiator>
+(GF_Bathroom)
+
+String Heizung_Badezimmer_Feedback
+  "Solltemperatur vs. aktuelle Temperatur [%s]"
+  <temperature>
+  (gHeizungBad)
+
+Number Heizung_Badezimmer_Signalstaerke
+  "Signalstärke Heizung Badezimmer [%s]"
+  <qualityofservice>
+  (gSignalstaerke, gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#SIGNAL_STRENGTH"}
+
+Switch Heizung_Badezimmer_Batterie
+  "Batterie Heizung Badezimmer"
+  <battery>
+  (gBatterie, gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#LOWBAT"}
+
+Switch Heizung_Badezimmer_BOOST_MODE
+  "Boost Mode Heizung Badezimmer"
+  <fire>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#BOOST_MODE"}
+
+Number Heizung_Badezimmer_BOOST_STATE
+  "Restdauer Boost Mode Heizung Badezimmer [%d]"
+  <fire>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#BOOST_STATE"}
+
+String Heizung_Badezimmer_CONTROL_MODE
+  "Heizung Badezimmer Modus"
+  <radiator>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#CONTROL_MODE"}
+
+Number Heizung_Badezimmer_SET
+  "Heizung Badezimmer: letzter übermittelter Wert [%.1f °C]"
+  <line>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#SET_TEMPERATURE"}
+
+Number Heizung_Badezimmer_ACTUALTEMP
+  "Temperatur Heizung Badezimmer [%.1f °C]"
+  <temperature>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#ACTUAL_TEMPERATURE"}
+
+Number Heizung_Badezimmer_VALVE
+  "Ventil Heizung Badezimmer [%d %%]"
+  <radiator>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#VALVE_STATE"}
+
+String Heizung_Badezimmer_FAULT
+  "Fehlerwert Heizung Badezimmer [%s]"
+  <radiator>
+  (gHeizungBad)
+  // Anpassen: {channel="homematic:HM-CC-RT-DN:...#FAULT_REPORTING"}
+
+// 13.12 Heizroutinen.rules
+String Heizmodus
+  "Heizmodus [%s]"
+  (gHeizungBad)
+
+Switch Sende_Update_an_Heizkoerper
+  "Zieltemperatur an Heizkörper senden"
+  (gHeizungBad)
+
+Number NeueTemperatur
+  "Neue Temperatur für Heizkörper"
+  (gHeizungBad)

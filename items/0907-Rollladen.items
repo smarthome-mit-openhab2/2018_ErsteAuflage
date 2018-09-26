@@ -1,0 +1,39 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.7 Rollladenaktor HM-LC-Bl1PBU-FM
+ * (S. 185 ff.)
+ */
+
+Number Rollladen_Szene
+
+Group:Number:AVG gRollladen
+  "Alle Rollläden im Wohnzimmer"
+  <rollershutter>
+  (GF_LivingRoom)
+
+// Fenster
+Number Wohnzimmer_Fenster_Rollladen_Signalstaerke
+  "Wohnzimmer Fenster Signalstärke [%s]"
+  <qualityofservice>
+  (gRollladen, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-LC-Bl1PBU-FM:...#SIGNAL_STRENGTH"}
+
+Rollershutter Wohnzimmer_Fenster_Rollladen
+  "Rollladen Fenster [SCALE(Rollladen.scale):%d]"
+  <rollershutter>
+  (gRollladen)
+  // Anpassen: {channel="homematic:HM-LC-Bl1PBU-FM:...#LEVEL"}
+
+// Terrassentür
+Number Wohnzimmer_Terrassentuer_Rollladen_Signalstaerke
+  "Wohnzimmer Terrassentür Signalstärke [%s]"
+  <qualityofservice>
+  (gRollladen, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-LC-Bl1PBU-FM:...#SIGNAL_STRENGTH"}
+
+Rollershutter Wohnzimmer_Terrassentuer_Rollladen
+  "Rollladen Terrassentür [SCALE(Rollladen.scale):%d]"
+  <rollershutter>
+  (gRollladen)
+  // Anpassen: {channel="homematic:HM-LC-Bl1PBU-FM:...#LEVEL"}

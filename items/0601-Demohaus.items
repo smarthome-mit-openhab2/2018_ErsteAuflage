@@ -1,0 +1,89 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.1 Das Demohaus
+ * (S. 95 ff.)
+ */
+
+// Eine Gruppe für das gesamte Haus
+Group Home
+  "Demo-Haus"
+  <house>
+
+// Gruppen repräsentieren die Geschosse
+Group UG
+  "Untergeschoss"
+  <cellar>
+  (Home)
+
+Group GF
+  "Erdgeschoss"
+  <groundfloor>
+  (Home)
+
+Group FF
+  "Erster Stock"
+  <firstfloor>
+  (Home)
+
+// Gruppen repräsentieren die Räume
+Group GF_Bedroom
+  "Schlafzimmer"
+  <bedroom>
+  (GF)
+
+Group GF_Bathroom
+  "Badezimmer"
+  <bath>
+  (GF)
+
+Group GF_Balcony
+  "Balkon"
+  <terrace>
+  (GF)
+
+Group GF_LivingRoom
+  "Wohnzimmer"
+  <sofa>
+  (GF)
+
+Group GF_Kitchen
+  "Küche"
+  <kitchen>
+  (GF)
+
+Group GF_Hallway
+  "Flur"
+  <corridor>
+  (GF)
+
+Group FF_Attic
+  "Dachgeschoss"
+  <attic>
+  (FF)
+
+Group UG_Waschkeller
+  "Waschkeller"
+  <washingmachine>
+  (UG)
+
+Group UG_Heizungsraum
+  "Heizungsraum"
+  <fire>
+  (UG)
+
+// Administrative Gruppen
+Group gSignalstaerke
+  "Signalstärken"
+  <qualityofservice>
+  (Home)
+
+Group:Switch:OR(ON, OFF) gBatterie
+  "Batteriestände [%d]"
+  <battery>
+  (Home)
+
+Group:Switch:OR(ON, OFF) gLampen
+  "Alle Lampen im Haus [%d]"
+  <light>
+  (Home)

@@ -1,0 +1,35 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.9 Bewegungsmelder HM-Sec-MDIR-2
+ * (S. 189 ff.)
+ */
+
+Group gBewegungsmelder
+"Bewegungsmelder im Flur"
+<motion>
+(GF_Hallway)
+
+Number Bewegungsmelder_Signalstaerke
+  "Signalstärke Bewegungsmelder [%s]"
+  <qualityofservice>
+  (gSignalstaerke, gBewegungsmelder)
+  // Anpassen: {channel="homematic:HM-Sec-MDIR-2:...#SIGNAL_STRENGTH"}
+
+Switch Bewegungsmelder_Batterie
+  "Batterie Bewegungsmelder"
+  <battery>
+  (gBatterie, gBewegungsmelder)
+  // Anpassen: {channel="homematic:HM-Sec-MDIR-2:...#LOWBAT"}
+
+Number Bewegungsmelder_Helligkeit
+  "Helligkeit [%s]"
+  <motion>
+  (gBewegungsmelder)
+  // Anpassen: {channel="homematic:HM-Sec-MDIR-2:...#BRIGHTNESS"}
+
+Switch Bewegungsmelder_Bewegung
+  "Bewegung"
+  <motion>
+  (gBewegungsmelder)
+  // Anpassen: {channel="homematic:HM-Sec-MDIR-2:...#MOTION"}

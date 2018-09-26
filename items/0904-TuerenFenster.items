@@ -1,0 +1,65 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.4 Tür- bzw. Fenstersensor HM-Sec-SC-2
+ * (S. 171 ff.)
+ */
+
+Group gHaustuer
+  "Haustür Türsensor"
+  <frontdoor>
+  (GF_Hallway)
+
+Contact Haustuer_Kontakt
+  "Haustür [%s]"
+  <frontdoor>
+  (gHaustuer)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#STATE"}
+
+Number Haustuer_Kontakt_Signalstaerke
+  "Signalstärke Haustür [%s]"
+  <qualityofservice>
+  (gHaustuer, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...0#SIGNAL_STRENGTH"}
+
+Switch Haustuer_Kontakt_Batteriestand
+  "Batteriestand Haustür [%s]"
+  <battery>
+  (gHaustuer, gBatterie)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#LOWBAT"}
+
+String Haustuer_Kontakt_Sabotage
+  "Sabotage Haustür [%s]"
+  <error>
+  (gHaustuer)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#ERROR"}
+
+// Der Notausstieg
+Group gNotausstieg
+  "Notausstieg Fenstersensor"
+  <window>
+  (FF_Attic)
+
+Contact Notausstieg_Kontakt
+  "Notausstieg [MAP(de.map):%s]"
+  <window>
+  (gNotausstieg)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#STATE"}
+
+String Notausstieg_Kontakt_Sabotage
+  "Notausstieg Sabotage [%s]"
+  <error>
+  (gNotausstieg)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...1#ERROR"}
+
+Switch Notausstieg_Kontakt_Batteriestand
+  "Batteriestand Notausstieg [%s]"
+  <battery>
+  (gNotausstieg, gBatterie)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#LOWBAT"}
+
+Number Notausstieg_Kontakt_Signalstaerke
+  "Signalstärke Notausstieg [%s]"
+  <qualityofservice>
+  (gNotausstieg, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-Sec-SC-2:...#SIGNAL_STRENGTH"}

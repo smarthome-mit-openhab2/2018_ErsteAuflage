@@ -1,0 +1,30 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 10.2 Film ab! Integration von Kodi
+ * (S. 203 ff.)
+ */
+
+Group gHeimkino
+"Heimkino via Kodi"
+<screen>
+(GF_LivingRoom)
+
+Player Heimkino_Control
+  "Steuerung"
+  <mediacontrol>
+  (gHeimkino)
+  // Anpassen: {channel="kodi:...:control"}
+
+Dimmer Heimkino_Lautstaerke
+  "Lautstärke [%d %%]"
+  <soundvolume>
+  (gHeimkino)
+  // Anpassen: {channel="kodi:...:volume"}
+
+String Heimkino_Bildschirmtext
+  "Benachrichtigung [%s]"
+  <screen>
+  (gHeimkino)
+  // Anpassen: {channel="kodi:...:shownotification"}
+

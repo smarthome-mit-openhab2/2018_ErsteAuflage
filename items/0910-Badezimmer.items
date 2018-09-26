@@ -1,0 +1,37 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.10 Wandthermostat HM-TC-IT-WM-W-EU
+ * (S. 190 ff.)
+ */
+
+Group gWandthermostat
+"Wandthermostat Badezimmer"
+<humidity>
+(GF_Bathroom)
+
+Number Wandthermostat_Signalstaerke
+  "Signalstärke Wandthermostat [%s]"
+  <qualityofservice>
+  (gSignalstaerke, gWandthermostat)
+  // Anpassen: {channel="homematic:HM-TC-IT-WM-W-EU:...#SIGNAL_STRENGTH"}
+
+Switch Wandthermostat_Batterie
+  "Batterie Wandthermostat "
+  <battery>
+  (gBatterie, gWandthermostat)
+  // Anpassen: {channel="homematic:HM-TC-IT-WM-W-EU:...#LOWBAT"}
+
+Number Badezimmer_Temperatur
+  "Temperatur Badezimmer [%.1f °C]"
+  <temperature>
+  (gWandthermostat)
+  ["CurrentTemperature"]
+  // Anpassen: {channel="homematic:HM-TC-IT-WM-W-EU:...#ACTUAL_TEMPERATURE"}
+
+Number Badezimmer_Luftfeuchtigkeit
+  "Luftfeuchtigkeit Badezimmer [%.1f %%]"
+  <humidity>
+  (gWandthermostat)
+  ["CurrentHumidity"]
+  // Anpassen: {channel="homematic:HM-TC-IT-WM-W-EU:...#ACTUAL_HUMIDITY"}

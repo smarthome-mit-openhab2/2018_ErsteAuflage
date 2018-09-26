@@ -1,0 +1,41 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.8 Die vierfache Tasterschnittstelle HM-PBI-4-FM
+ * (S. 187 ff.)
+ */
+
+Group gHaustuerklingel
+  "Haustürklingel"
+  <siren>
+  (GF_Hallway)
+
+Number Haustuerklingel_Signalstaerke
+  "Haustuerklingel Signalstärke [%s]"
+  <qualityofservice>
+  (gHaustuerklingel, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-PBI-4-FM:...#SIGNAL_STRENGTH"}
+
+Switch Haustuerklingel_Batteriestand
+  "Batteriestand Haustuerklingel [%s]"
+  <battery>
+  (gHaustuerklingel, gBatterie)
+  // Anpassen: {channel="homematic:HM-PBI-4-FM:...#LOWBAT"}
+
+Switch Haustuerklingel_Kurz
+  "Haustürklingel (kurzer Tastendruck)"
+  <siren>
+  (gHaustuerklingel)
+  // Anpassen: {channel="homematic:HM-PBI-4-FM:...#PRESS_SHORT"}
+
+Switch Haustuerklingel_Lang
+  "Haustürklingel (langer Tastendruck)"
+  <siren>
+  (gHaustuerklingel)
+  // Anpassen: {channel="homematic:HM-PBI-4-FM:...#PRESS_LONG"}
+
+// 13.8
+DateTime Letzter_Besucher
+  "Letzter Besucher [%1$tH:%1$tM am %1$td.%1$tm.]"
+  <motion>
+  (gHaustuerklingel)

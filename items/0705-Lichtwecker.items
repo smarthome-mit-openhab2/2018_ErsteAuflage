@@ -1,0 +1,34 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 7.5 Der Lichtwecker
+ * (S. 144 ff.)
+ */
+
+Switch Urlaub
+  "Urlaub"
+  <vacation>
+  (gLichtwecker)
+
+Group gLichtwecker
+  "Lichtwecker"
+  <time>
+  (GF_Bedroom)
+
+Dimmer Lichtwecker_Helligkeit
+  "Lichtwecker Helligkeit"
+  <light>
+  (gLichtwecker)
+  // Anpassen: {channel="hue:...:color"}
+
+Switch Lichtwecker_Schalter
+  "Lichtwecker Schalter"
+  <light>
+  (gLichtwecker, gLampen)
+  // Anpassen: {channel="hue:...:color"}
+
+Dimmer Lichtwecker_Farbtemperatur
+  "Lichtwecker Farbtemperatur"
+  <colorwheel>
+  (gLichtwecker)
+  // Anpassen: {channel="hue:...:color_temperature"}

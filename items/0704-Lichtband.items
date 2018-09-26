@@ -1,0 +1,43 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 7.4 Das Lichtband
+ * (S. 140 ff.)
+ */
+
+// Items für Lichtband
+Group gLichtband
+  "Lichtband im Wohnzimmer"
+  <light>
+  (GF_LivingRoom)
+
+Dimmer Lichtband_Farbtemperatur
+  "Lichtband Farbtemperatur"
+  <rgb>
+  (gLichtband)
+  // Anpassen: {channel="hue:...:color_temperature"}
+
+Color Lichtband_Farbe
+  "Lichtband Farbe"
+  <colorwheel>
+  (gLichtband)
+  // Anpassen: {channel="hue:...:color"}
+
+Dimmer Lichtband_Helligkeit
+  "Lichtband Helligkeit"
+  <light>
+  (gLichtband)
+  ["Lighting"]
+  // Anpassen: {channel="hue:...:color"}
+
+Switch Lichtband_Schalter
+  "Lichtband Schalter"
+  <light>
+  (gLichtband, gLampen)
+  // Anpassen: {channel="hue:...:color"}
+
+// 13.3.1 - Item für Szenenbeleuchtung
+Number Beleuchtung_Szene
+  "Szenenbeleuchtung Wohnzimmer"
+  <sofa>
+  (GF_LivingRoom)

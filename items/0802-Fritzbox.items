@@ -1,0 +1,51 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 8 Integration Ihrer FRITZ!Box
+ * (S. 149 ff.)
+ */
+
+Group gFritzbox
+  "Meine FRITZ!Box"
+  <network>
+  (GF_Hallway)
+
+Contact meinPhone
+  "iPhone zu Hause [MAP(Presence.map):%s]"
+  <network>
+  (gFritzbox)
+  // Anpassen: {fritzboxtr064="maconline:CC-00-FF-FF-EE-EE"}
+
+Switch fbAnrufbeantworter
+  "Anrufbeantworter"
+  (gFritzbox)
+  {fritzboxtr064="tamSwitch:0"}
+
+Number fbNeueNachrichten
+  "Neue Nachrichten [%s]"
+  (gFritzbox)
+  {fritzboxtr064="tamNewMessages:0"}
+
+String fbDslStatus
+  "FBox DSL Status [%s]"
+  <line>
+  (gFritzbox)
+  {fritzboxtr064="dslStatus"}
+
+String fbExternalIp
+  "FBox WAN IP [%s]"
+  <network>
+  (gFritzbox)
+  {fritzboxtr064="wanip"}
+
+Number fbDslUpstream
+  "DSL Upstream [%s mbit/s]"
+  <line>
+  (gFritzbox)
+  {fritzboxtr064="dslUpstreamCurrRate"}
+
+Number fbDslDownstream
+  "DSL Downstream [%s mbit/s]"
+  <line>
+  (gFritzbox)
+  {fritzboxtr064="dslDownstreamCurrRate"}

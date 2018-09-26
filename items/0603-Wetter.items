@@ -1,0 +1,97 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.3 Das Weather Binding - die Items
+ * (S. 116 ff.)
+ */
+
+String SummaryStateWind
+String SummaryStateVorhersage
+String SummaryStateAktuell
+
+Group gWetter
+  "Wetterbericht"
+  <sun_clouds>
+  (GF_Balcony)
+
+Number Aussentemperatur
+  "Außentemperatur [%.1f °C]"
+  <temperature>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    type=temperature,
+    property=current" }
+
+// Die relative Luftfeuchtigkeit
+Number Luftfeuchtigkeit
+  "Relative Luftfeuchtigkeit [%.0f %%]"
+  <humidity>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    type=atmosphere,
+    property=humidity" }
+
+// Die aktuelle Wetterlage in Form eines Strings
+String Wetterlage
+  "Wetterlage [%s]"
+  <sun_clouds>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    type=condition,
+    property=commonId" }
+
+String Windrichtung
+  "Windrichtung [%s]"
+  <wind>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    type=wind,
+    property=direction" }
+
+Number Windgeschwindigkeit
+  "Windgewschwindigkeit [%dkm/h]"
+  <wind>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    type=wind,
+    property=speed" }
+
+
+// Vorhersage für morgen
+String Vorhersage_Wetterlage
+  "Morgen [%s]"
+  <temperature>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    forecast=1,
+    type=condition,
+    property=commonId" }
+
+// Minimale Temperatur morgen
+Number Vorhersage_Temperatur_Min
+  "Minimale Temperatur [%.1f°C]"
+  <temperature>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    forecast=1,
+    type=temperature,
+    property=min"}
+
+// Maximale Temperatur morgen
+Number Vorhersage_Temperatur_Max
+  "Maximale Temperatur [%.1f°C]"
+  <temperature>
+  (gWetter)
+  { weather="locationId=Rheinwerk,
+    forecast=1,
+    type=temperature,
+    property=max" }
+
+/* UV-Index
+   Erklärung der Werte:
+   https://de.wikipedia.org/wiki/UV-Index
+*/
+Number UvIndex
+  "UV-Index [5]"
+  <sun>
+  (gWetter)

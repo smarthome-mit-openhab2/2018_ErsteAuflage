@@ -1,0 +1,39 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 6.2 Rheinwerk-Sonne via Astro-Binding
+ * (S. 104 ff.)
+ */
+
+Group gSonne
+  "Sonne via Astro-Binding"
+  <sun>
+  (GF_Balcony)
+
+//--- Sonnenaufgang
+DateTime Sonnenaufgang_Zeit
+  "Sonnenaufgang [%1$tH:%1$tM]"
+  <sunrise>
+  (gSonne)
+  {channel="astro:sun:rheinwerk-sonne:rise#start"}
+
+//--- Sonnenuntergang
+DateTime Sonnenuntergang_Zeit
+  "Sonnenuntergang [%1$tH:%1$tM]"
+  <sunset>
+  (gSonne)
+  {channel="astro:sun:rheinwerk-sonne:set#start"}
+
+//--- Azimut
+Number Azimut
+  "Azimut [%.2f°]"
+  <sun>
+  (gSonne)
+  {channel="astro:sun:rheinwerk-sonne:position#azimuth"}
+
+//--- Sonnenhoehe
+Number Sonnenhoehe
+  "Sonnenhöhe [%.2f°]"
+  <sun>
+  (gSonne)
+  {channel="astro:sun:rheinwerk-sonne:position#elevation"}

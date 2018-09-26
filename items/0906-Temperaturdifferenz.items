@@ -1,0 +1,47 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.6 Temperaturdifferenzsensor HM-WDS30-OT2-SM
+ * (S. 180 ff.)
+ */
+
+Group gTemperaturdifferenz
+  "Temperaturdifferenz"
+  <temperature>
+  (GF_Balcony)
+
+Number Temperaturdifferenzsensor_Signalstaerke
+  "Temperaturdifferenzsensor Signalstärke [%s]"
+  <qualityofservice>
+  (gTemperaturdifferenz, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#SIGNAL_STRENGTH"}
+
+Switch Temperaturdifferenzsensor_Batteriestand
+  "Batteriestand Temperaturdifferenzsensor [%s]"
+  <battery>
+  (gTemperaturdifferenz, gBatterie)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#LOWBAT"}
+
+Number Fuehler_weiss
+  "Referenzwert weißer Fühler"
+  <temperature>
+  (gTemperaturdifferenz)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#TEMPERATURE"}
+
+Number Fuehler_schwarz
+  "Referenzwert schwarzer Fühler"
+  <temperature>
+  (gTemperaturdifferenz)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#TEMPERATURE"}
+
+Number Differenz_1minus2
+  "Differenz 1-2"
+  <temperature>
+  (gTemperaturdifferenz)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#TEMPERATURE"}
+
+Number Differenz_2minus1
+  "Differenz 2-1"
+  <temperature>
+  (gTemperaturdifferenz)
+  // Anpassen: {channel="homematic:HM-WDS30-OT2-SM:...#TEMPERATURE"}

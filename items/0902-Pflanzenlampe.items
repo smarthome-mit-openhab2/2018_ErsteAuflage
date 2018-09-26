@@ -1,0 +1,23 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.2 Schaltaktor HM-LC-Sw1-Pl-2
+ * (S. 165 ff.)
+ */
+
+Group gPflanzenlampe
+  "Pflanzenlampe"
+  <lawnmower>
+  (GF_Kitchen)
+
+Switch Pflanzenlampe_Schalter
+  "Stromversorgung Pflanzenlampe"
+  <lawnmower>
+  (gPflanzenlampe)
+  // Anpassen: {channel="homematic:HM-LC-Sw1-Pl-2:...#STATE"}
+
+Number Pflanzenlampe_Signalstaerke
+  "Signalstärke Pflanzenlampe [%s]"
+  <qualityofservice>
+  (gPflanzenlampe, gSignalstaerke)
+  // Anpassen: {channel="homematic:HM-LC-Sw1-Pl-2:...#SIGNAL_STRENGTH"}

@@ -1,0 +1,36 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * 9.12 Schaltaktor HM-LC-Sw4-DR
+ * (S. 199 ff.)
+ */
+
+Group gSicherungskasten
+  "Sicherungskasten"
+  <settings>
+  (UG_Heizungsraum)
+
+Group g3fachAktor
+  "3fach-Aktor im Sicherungskasten"
+  <settings>
+  (gSicherungskasten)
+
+Number 3fach_Signalstaerke
+  "Signalstärke 3fach-Aktor [%s]"
+  <qualityofservice>
+  (gSignalstaerke, g3fachAktor)
+  // Anpassen: {channel="homematic:HM-SwI-3-FM:...#SIGNAL_STRENGTH"}
+
+Switch Badezimmer_Deckenlicht
+  "Deckenlicht Badezimmer"
+  <light>
+  (GF_Bathroom, gLampen, g3fachAktor)
+  ["Lighting"]
+  // Anpassen: {channel="homematic:HM-SwI-3-FM:...:1#STATE"}
+
+Switch Badezimmer_Luefter
+  "Lüfter Badezimmer"
+  <fan>
+  (GF_Bathroom, g3fachAktor)
+  ["Switchable"]
+  // Anpassen: {channel="homematic:HM-SwI-3-FM:...#STATE"}
