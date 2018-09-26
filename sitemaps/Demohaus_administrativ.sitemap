@@ -1,0 +1,33 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * Demohaus_administrativ.sitemap
+ */
+
+sitemap Demohaus_administrativ label="Administrativ" {
+
+  Frame label="Wartung" {
+    Group item=gSignalstaerke
+    Group item=gBatterie
+    Group item=gLampen
+  } // END Frame Wartung
+
+  Frame label="Untergeschoss" icon="cellar" {
+    Group item=UG_Waschkeller
+    Group item=UG_Heizungsraum
+  } // END Frame Keller
+
+  Frame label="Erdgeschoss" icon="groundfloor" {
+    Group item=GF_Bedroom
+    Group item=GF_Bathroom
+    Group item=GF_Balcony
+    Group item=GF_LivingRoom
+    Group item=GF_Kitchen
+    Group item=GF_Hallway
+  } // END Frame Erdgeschoss
+
+  Frame label="Erster Stock" icon="firstfloor" {
+    Group item=FF_Attic
+  } // END Frame Erster Stock
+
+}

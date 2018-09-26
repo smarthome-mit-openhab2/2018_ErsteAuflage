@@ -1,0 +1,442 @@
+/* 20180926
+ * Marianne M. Spiller <marianne@spiller.me>
+ * https://www.smarthome-mit-openhab2.de/
+ * Demohaus_produktiv.sitemap
+ */
+ 
+ sitemap Demohaus_produktiv label="Produktiv" {
+
+  Frame label="Untergeschoss" icon="cellar" {
+    Text item=UG_Heizungsraum label="Heizungskeller" icon="fire"
+    Text item=UG_Waschkeller label="Waschkeller" icon="washingmachine" {
+      Frame item=Leistungsmesser_Schalter label="Waschmaschine [%s]" {
+
+          Switch item=Leistungsmesser_Schalter
+            label="Waschmaschine"
+            icon="washingmachine"
+            mappings=[OFF="Aus",
+                      ON="Ein"]
+
+          Text item=Leistungsmesser_Spannung
+            label="Netzspannung [%.2f V]"
+            icon="energy"
+            visibility=[Leistungsmesser_Schalter == ON]
+
+          Text item=Leistungsmesser_Leistung
+            label="Aktueller Verbrauch [%.2f W]"
+            icon="energy"
+            visibility=[Leistungsmesser_Schalter == ON]
+
+          Text item=Leistungsmesser_Strom
+            label="Strom [%.2f mA]"
+            icon="energy"
+            visibility=[Leistungsmesser_Schalter == ON]
+
+          Text item=Leistungsmesser_Frequenz
+            label="Netzfrequenz [%.2f Hz]"
+            icon="energy"
+            visibility=[Leistungsmesser_Schalter == ON]
+
+          Text item=Leistungsmesser_Energiezaehler
+            label="Energiezähler "
+            icon="energy"
+            visibility=[Leistungsmesser_Schalter == ON]
+      } // END Frame Waschmaschine
+    } // END Waschkeller
+  } // END Frame Keller
+
+//--- ERDGESCHOSS
+  Frame label="Erdgeschoss" icon="groundfloor" {
+    Text item=GF_Bedroom label="Schlafzimmer" icon="bedroom" {
+      Switch item=Urlaub
+        label="Urlaub"
+        icon="vacation"
+        mappings=[ON="Aktiviert",
+                  OFF="Deaktiviert"]
+
+    // Wenn der Lichtwecker ausgeschaltet ist
+    Switch item=Lichtwecker_Schalter
+      label="Lichtwecker"
+      icon="light"
+      mappings=[ON="Ein"]
+      visibility=[Lichtwecker_Schalter != ON]
+
+    // Wenn der Lichtwecker eingeschaltet ist
+    Text item=Lichtwecker_Schalter
+      label="Lichtwecker [MAP(Beleuchtung.map):%s]"
+      icon="light"
+      valuecolor=[ON="green",
+                  OFF="maroon"]
+      visibility=[Lichtwecker_Schalter == ON]
+    Default item=Lichtwecker_Helligkeit
+      label="Helligkeit"
+      icon="light"
+      visibility=[Lichtwecker_Schalter == ON]
+
+    Default item=Lichtwecker_Farbtemperatur
+      label="Farbtemperatur"
+      icon="rgb"
+      visibility=[Lichtwecker_Schalter == ON]
+
+    Switch item=Lichtwecker_Schalter
+      label="Lichtwecker"
+      icon="time"
+      mappings=[OFF="Aus"]
+      visibility=[Lichtwecker_Schalter == ON]
+    }
+
+//--- BADEZIMMER
+    Text item=Badezimmer_Temperatur label="Badezimmer [%.1f °C]" icon="bath" {
+      // 9.10 - Umgebungswerte
+      Frame label="Umgebungswerte" {
+        Text item=Badezimmer_Temperatur
+          label="Temperatur [%.1f °C]"
+          icon="temperature"
+          valuecolor=[<18.5="blue",
+                      <22.5="green",
+                      >22.4="maroon"]
+
+        Switch item=Badezimmer_Luftfeuchtigkeit
+          label="Luftfeuchtigkeit [%.1f %%]"
+          icon="humidity"
+          valuecolor=[>75="red",
+                      >=60="orange",
+                      <60="green"]
+      } // END Frame Umgebungswerte
+
+      // 9.11 - Heizkörper
+      Text item=Heizung_Badezimmer_FAULT
+        label="Bad [MAP(HM-CC-RT-DN.map):%s]"
+        icon="error"
+        visibility=[Heizung_Badezimmer_FAULT != "NO_FAULT"]
+        valuecolor=[!=NO_FAULT="maroon"]
+
+      Frame label="Heizung" {
+        Selection item=Heizmodus
+          label="Heizmodus (Badezimmer) []"
+          icon="sofa"
+          mappings=[NORMAL="Normal",
+                    KRANK="Krankheitstag",
+                    WOCHENENDTRIP="Wochenendtrip",
+                    AUS="Standby"]
+                    
+       Text item=Heizung_Badezimmer_VALVE label="Bad Heizung [Ventil %.0f %%]" icon="radiator" visibility=[Heizung_Badezimmer_FAULT == "NO_FAULT"] {
+        Frame label="Temperaturen" {
+          Text item=Heizung_Badezimmer_ACTUALTEMP
+            label="Aktuelle Temperatur [%.1f °C]"
+            icon="temperature"
+            valuecolor=[Heizung_Badezimmer_Feedback=="okay"="green",
+            Heizung_Badezimmer_Feedback=="toolow"="blue"]
+
+          Setpoint item=Heizung_Badezimmer_SET
+            label="Modifizieren (±½)"
+            icon="temperature"
+            minValue=4.5
+            maxValue=30.5
+            step=0.5
+            visibility=[Heizung_Badezimmer_SET > 4.5]
+        } // END Frame Temperaturen
+
+        Frame label="Heizkörper" {
+          Text item=Heizung_Badezimmer_CONTROL_MODE
+            label="Modus [MAP(HM-CC-RT-DN.map):%s]"
+            icon="heating"
+
+          Switch item=Heizung_Badezimmer_SET
+            label="Heizkörper [aus]"
+            icon="radiator"
+            mappings=[19.0="Einschalten"]
+            visibility=[Heizung_Badezimmer_SET == 4.5]
+
+          Switch item=Heizung_Badezimmer_BOOST_MODE
+            label="Boost (15min)"
+            icon="fire"
+            mappings=[ON="Starten"]
+            visibility=[Heizung_Badezimmer_BOOST_STATE == 0]
+
+          Text item=Heizung_Badezimmer_BOOST_STATE
+            label="Boost-Restzeit [%d min]"
+            icon="fire"
+            visibility=[Heizung_Badezimmer_BOOST_STATE > 0]
+          } // END Frame Heizkörper
+        } // END Heizung
+      } // END Frame Heizkörper
+
+      // 9.12 - Listing 9.25
+      Frame label="Verbraucher" {
+        Switch item=Badezimmer_Deckenlicht
+          label="Deckenlicht"
+          icon="light"
+          mappings=[ON="Ein",
+                    OFF="Aus"]
+
+        Switch item=Badezimmer_Luefter
+          label="Lüfter"
+          icon="fan"
+          mappings=[ON="Ein",
+                    OFF="Aus"]
+      } // END Frame Verbraucher
+    } // END Badezimmer
+
+    Text item=GF_Balcony label="Außenbereich" icon="terrace" {
+      Group item=gSonne
+      Text item=Sonnenschutz_aktiv
+        label="Sonnenschutz [MAP(SwitchAktiv.map):%s]"
+        icon="fire"
+        valuecolor=[ON="olive"]
+        visibility=[Sonnenschutz_aktiv == ON]
+
+      Text item=Wohnzimmer_Fenster_Rollladen
+        label="Fenster [SCALE(Rollladen.scale):%s]"
+        icon="rollershutter"
+
+      Text item=Wohnzimmer_Terrassentuer_Rollladen
+        label="Fenster [SCALE(Rollladen.scale):%s]"
+        icon="rollershutter"
+
+      Text label="Wetterbericht: erste Möglichkeit (zwei Frames)" icon="sun_clouds" {
+        Frame label="Aktuelle Werte" {
+          Text item=Aussentemperatur
+            label="Aussentemperatur [%.1f °C]"
+            icon="temperature"
+          Text item=Luftfeuchtigkeit
+            label="Relative Luftfeuchtigkeit [%.0f %%]"
+            icon="humidity"
+          Text item=UvIndex
+            label="UV-Index [SCALE(UvIndex.scale):5]"
+            icon="sun"
+          Text item=Wetterlage
+            label="Aktuell [MAP(Wetterlage.map):%s]"
+            icon="sun_clouds"
+          Text item=Windgeschwindigkeit
+            label="Windgeschwindigkeit [%.2f km/h]"
+            icon="wind"
+          Text item=Windrichtung
+            label="Windrichtung [MAP(Windrichtung.map):%s]"
+            icon="wind"
+        } // END Aktuelle Werte
+
+        Frame label="Vorhersage" {
+          Text item=Vorhersage_Wetterlage
+          label="Vorhersage Wetterlage [MAP(Wetterlage.map):%s]"
+          icon="sun_clouds"
+          Text item=Vorhersage_Temperatur_Min
+            label="Morgen [mindestens %.1f°C]"
+            icon="temperature"
+          Text item=Vorhersage_Temperatur_Max
+            label="Morgen [maximal %.1f°C]"
+            icon="temperature"
+        } // END Vorhersage
+      } // END Frame Wetter
+
+      Text label="Wetterbericht: weitere Möglichkeit (mit Status Summary Items)" icon="sun_clouds" {
+        Frame label="Aktuelle Werte" {
+          Text item=SummaryStateAktuell
+            label="Aktuell [%s]"
+            icon="sun_clouds"
+            labelcolor=["grey"]
+          Text item=Luftfeuchtigkeit
+            label="Relative Luftfeuchtigkeit [%.0f %%]"
+            icon="humidity"
+            valuecolor=[<60="orange",
+                        >=60="red"]
+            visibility=[Luftfeuchtigkeit > 50]
+          Text item=UvIndex
+            label="UV-Index [SCALE(UvIndex.scale):5]"
+            icon="sun"
+          Text item=SummaryStateWind
+            label="Wind [%s]"
+            icon="Wind"
+        } // END Frame Aktuelle Werte
+
+        Frame label="Vorhersage" {
+          Text item=SummaryStateVorhersage
+            label="Morgen [%s]"
+            icon="sun_clouds"
+        } // END Frame Vorhersage
+      } // END Frame Wetterbericht
+    } // END GF_Balcony
+
+//--- WOHNZIMMER
+    Text item=GF_LivingRoom label="Wohnzimmer" icon="sofa" {
+      Frame label="Heimkino" {
+        Default item=Heimkino_Control
+          label=""
+          icon="mediacontrol"
+
+        Slider item=Heimkino_Lautstaerke
+          label="Lautstärke"
+          icon="soundvolume"
+      } // END Frame Heimkino
+      
+      // Wenn das Lichtband ausgeschaltet ist
+      Switch item=Lichtband_Schalter
+        label="Lichtband"
+        icon="light"
+        mappings=[ON="Ein"]
+        visibility=[Lichtband_Schalter != ON]
+
+      // Wenn das Lichtband eingeschaltet ist
+      Text item=Lichtband_Schalter label="Lichtband [MAP(Beleuchtung.map):%s]" icon="light" valuecolor=[ON="green", OFF="maroon"] visibility=[Lichtband_Schalter == ON] {
+        Default item=Lichtband_Helligkeit
+          label="Helligkeit"
+          icon="light"
+        Default item=Lichtband_Farbtemperatur
+          label="Farbtemperatur"
+          icon="rgb"
+        Colorpicker item=Lichtband_Farbe
+          label="Farbton"
+          icon="colorpicker"
+        Switch item=Lichtband_Schalter
+          label="Lichtband"
+          icon="light"
+          mappings=[OFF="Aus"]
+        Selection item=Beleuchtung_Szene
+          label="Beleuchtung"
+          icon="sofa"
+          mappings=[0="Wähle",
+                    1="Konzentration",
+                    2="Entspannung",
+                    3="Ausschalten"]
+      } // END Text item=Lichtband_Schalter
+
+    Text item=gRollladen label="Rollläden [im Durchschnitt: %.1f %%]" {
+      Default item=Wohnzimmer_Fenster_Rollladen
+        label="Fenster [SCALE(Rollladen.scale):%d]"
+        icon="rollershutter"
+
+      Default item=Wohnzimmer_Terrassentuer_Rollladen
+        label="Terrassentür [SCALE(Rollladen.scale):%d]"
+        icon="rollershutter"
+      } // END Rolllaeden
+
+    } // END Wohnzimmer
+
+    Text item=GF_Kitchen label="Küche" icon="kitchen" {
+      Frame label="Pflanzenlampe" {
+        Switch item=Pflanzenlampe_Schalter
+          label="Orchidee"
+          icon="lawnmower"
+          mappings=[ON="Aktiv",
+                    OFF="Inaktiv"]
+      }
+    }
+
+///--- FLUR
+    Text item=GF_Hallway label="Flur" icon="corridor" {
+
+      // Die Haustür
+      Text item= Haustuer_Kontakt
+        label="Haustür [MAP(de.map):%s]"
+        icon="frontdoor"
+
+      Text item=Haustuer_Kontakt_Batteriestand
+        label="Batterie tauschen! [?]"
+        icon="battery"
+        visibility=[Haustuer_Kontakt_Batteriestand == ON]
+
+      Text item=Haustuer_Kontakt_Signalstaerke
+        label="Signalstärke [MAP(HomeMatic_Signal.map):%d]"
+        icon="qualityofservice"
+        visibility=[Haustuer_Kontakt_Signalstaerke < 2]
+
+      Text item=Haustuer_Kontakt_Sabotage
+        label="Sabotage"
+        icon="error"
+        visibility=[Haustuer_Kontakt_Sabotage == "SABOTAGE"]
+
+      Text item=fbDslStatus label="FRITZ!Box [%s]" {
+        // FRAME Anwesenheit
+        Frame label="Anwesenheit" {
+          Text item=meinPhone
+          label="iPhone zu Hause"
+          icon="network"
+        } // END Frame Anwesenheit
+        
+        // FRAME Anrufbeantworter
+        Frame item=fbNeueNachrichten label="Anrufbeantworter [%d neue Nachricht(en)]" {
+          Switch item=fbAnrufbeantworter
+            label="Anrufbeantworter"
+            icon="network"
+            mappings=[ON="Ein",
+                      OFF="Aus"]
+
+          Text item=fbNeueNachrichten
+            label="Neue Sprachnachrichten [%d]"
+            icon="chart"
+            visibility=[fbNeueNachrichten > 0]
+        } // END Frame Anrufbeantworter
+
+        // Frame Leitungswerte
+        Frame label="Leitungswerte" {
+          Text item=fbExterneIp
+            label="Externe IP-Adresse [%s]"
+            icon="line"
+            visibility=[fbDslStatus == "Up"]
+
+          Text item=fbDslExterneIp
+           label="Keine DSL-Verbindung [?]"
+            icon="error"
+            visibility=[fbDslStatus != "Up"]
+
+          Text item=fbDslUpstream
+           label="Upstream [%s mbit/s]"
+           icon="line"
+           visibility=[fbDslStatus == "Up"]
+
+         Text item=fbDslUpstream
+           label="Upstream N/A [?]"
+           icon="error"
+           visibility=[fbDslStatus != "Up"]
+
+          Text item=fbDslDownstream
+           label="Downstream [%s mbit/s]"
+           icon="line"
+           visibility=[fbDslStatus == "Up"]
+
+         Text item=fbDslDownstream
+            label="Downstream N/A [?]"
+            icon="error"
+           visibility=[fbDslStatus != "Up"]
+        } // END Frame Leitungswerte
+      } // END FRITZ!Box
+
+      Text item=Bewegungsmelder_Helligkeit
+        label="Helligkeit"
+        icon="motion"
+        visibility=[Bewegungsmelder_Helligkeit > 10]
+
+      Text item=Bewegungsmelder_Bewegung
+        label="Bewegung erfasst"
+        icon="motion"
+        visibility=[Bewegungsmelder_Bewegung == ON]
+    } // END Flur
+
+  } // END Frame Erdgeschoss
+
+  Frame label="Erster Stock" icon="firstfloor" {
+    Text item=FF_Attic label="Dachgeschoss" icon="attic" {
+      Text item=Notausstieg_Kontakt
+        label="Notausstieg [MAP(de.map):%s]"
+        icon="error"
+        valuecolor=["red"]
+        visibility=[Notausstieg_Kontakt == OPEN]
+
+      Text item=Notausstieg_Kontakt
+        label="Notausstieg [MAP(de.map):%s]"
+        icon="window"
+        visibility=[Notausstieg_Kontakt != OPEN]
+
+      Text item=Notausstieg_Kontakt_Batteriestand
+        label="Batterie tauschen! [?]"
+        icon="battery"
+        visibility=[Notausstieg_Kontakt_Batteriestand == ON]
+
+      Text item=Notausstieg_Kontakt_Sabotage
+        label="Sabotage [%s]"
+        icon="motion"
+        visibility=[Notausstieg_Kontakt_Sabotage != "NO_ERROR"]
+    } // END Dachgeschoss
+  } // END Frame erster Stock
+
+} // END Sitemap Demohaus_produktiv
