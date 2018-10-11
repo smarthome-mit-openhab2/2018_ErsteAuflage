@@ -5,6 +5,14 @@ Das sei unvermeidbar, habe ich mir sagen lassen; genervt bin ich trotzdem :unamu
 
 Im Code werde ich die Korrekturen natürlich ebenfalls vornehmen; die Seitenzahlen beziehen sich jeweils auf die gedruckte Ausgabe des Buches.
 
+### Kapitel 2
+#### 2.7 Sprache und Systemzeit (S. 55)
+```diff
+- Erweitern Sie hierzu die Datei /etc/defaults/openhab2 um eine Zeile.
++ Erweitern Sie hierzu die Datei /etc/default/openhab2 um eine Zeile.
+```
+<small>*(Dank an Alejo A.)*</small>
+
 ### Kapitel 6
 #### Listing 6.19 (S. 129)
 ```diff
