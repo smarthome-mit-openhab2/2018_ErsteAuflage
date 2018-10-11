@@ -5,14 +5,6 @@ Das sei unvermeidbar, habe ich mir sagen lassen; genervt bin ich trotzdem :unamu
 
 Im Code werde ich die Korrekturen natürlich ebenfalls vornehmen; die Seitenzahlen beziehen sich jeweils auf die gedruckte Ausgabe des Buches.
 
-### Kapitel 2
-#### 2.7 Sprache und Systemzeit (S. 55)
-```diff
-- Erweitern Sie hierzu die Datei /etc/defaults/openhab2 um eine Zeile.
-+ Erweitern Sie hierzu die Datei /etc/default/openhab2 um eine Zeile.
-```
-<small>*(Dank an Alejo A.)*</small>
-
 ### Kapitel 6
 #### Listing 6.19 (S. 129)
 ```diff
@@ -29,3 +21,47 @@ then
 end
 ```
 <small>*(Dank an Frank S.)*</small>
+
+### Kapitel 8
+#### Listing 8.9 (S. 156)
+```diff
+Text item=fbDslStatus label="FRITZ!Box [%s]" {
+  // FRAME Anwesenheit
+  // FRAME Anrufbeantworter
+
+  Frame label="Leitungswerte" {
+-   Text item=fbExterneIp
++   Text item=fbExternalIp
+     label="Externe IP-Adresse [%s]"
+     icon="line"
+     visibility=[fbDslStatus == "Up"]
+
+-   Text item=fbDslExterneIp
++   Text item=fbExternalIp
+     label="Keine DSL-Verbindung [⛔️]"
+     icon="error"
+     visibility=[fbDslStatus != "Up"]
+
+   Text item=fbDslUpstream
+     label="Upstream [%s mbit/s]
+     icon="line"
+     visibility=[fbDslStatus == "Up"]
+
+   Text item=fbDslUpstream
+     label="Upstream N/A []"
+     icon="error"
+     visibility=[fbDslStatus != "Up"]
+
+   Text item=fbDslDownstream
+     label="Downstream [%s mbit/s]"
+     icon="line"
+     visibility=[fbDslStatus == "Up"]
+
+   Text item=fbDslDownstream
+     label="Downstream N/A []"
+     icon="error"
+     visibility=[fbDslStatus != "Up"]
+  } // END Frame Leitungswerte
+} // END FRITZ!Box
+```
+<small>*Dank an Michael G.*</small>
