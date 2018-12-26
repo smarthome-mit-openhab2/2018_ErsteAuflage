@@ -7,11 +7,43 @@ Im Code werde ich die Korrekturen natürlich ebenfalls vornehmen; die Seitenzahl
 
 ### Kapitel 2
 #### 2.7 Sprache und Systemzeit (S. 55)
+Beachtet bitte, dass Änderungen an der Datei `/etc/default/openhab2` unbedingt `root`-Rechte erfordern, denn nur `root` darf diese Datei beschreiben – eine Information, die ihr jederzeit mit `ls -l` verifizieren könnt. 
+```
+# ls -la /etc/default/openhab2
+-rw-r--r-- 1 root root 2140 Feb 16  2018 /etc/default/openhab2
+```
+
+#### 2.7 Sprache und Systemzeit (S. 55)
 ```diff
 - Erweitern Sie hierzu die Datei /etc/defaults/openhab2 um eine Zeile.
 + Erweitern Sie hierzu die Datei /etc/default/openhab2 um eine Zeile.
 ```
 <small>*(Dank an Alejo A.)*</small>
+
+```diff
+- systemctl restart openhab2.service
++ sudo systemctl restart openhab2.service
+```
+<small>*(Dank an Michael P.)*</small>
+
+### Kapitel 4
+#### Links auf S. 83
+Hier macht sich der Fehlerteufel in Form von Zeilentrennung bemerkbar – was natürlich zuschlägt, sobald man aus dem Ebook heraus einen Link einfach aufrufen möchte.
+
+```diff
+- https://git-hub.com/kubawolanin
++ https://github.com/kubawolanin
+```
+
+```diff
+- https://code.visualstudio.com/down-load
++ https://code.visualstudio.com/download
+```
+
+```diff
+- https://marketplace.visualstudio.com/items?item-Name=openhab.openhab
++ https://marketplace.visualstudio.com/items?itemName=openhab.openhab
+```
 
 ### Kapitel 6
 #### Listing 6.19 (S. 129)
@@ -72,4 +104,4 @@ Text item=fbDslStatus label="FRITZ!Box [%s]" {
   } // END Frame Leitungswerte
 } // END FRITZ!Box
 ```
-<small>*Dank an Michael G.*</small>
+<small>*(Dank an Michael G.)*</small>
