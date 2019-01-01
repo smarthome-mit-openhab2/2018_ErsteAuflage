@@ -112,3 +112,67 @@ Text item=fbDslStatus label="FRITZ!Box [%s]" {
 } // END FRITZ!Box
 ```
 <small>*(Dank an Michael G.)*</small>
+
+
+### Kapitel 25: Das System auf einer externen Platte betreiben (ab S. 453)
+<small>*(Dank an Thomas D.)*</small>
+In diesem Kapitel fehlt ganz klar der Hinweis: die Befehle, die hier zur Ausführung kommen, benötigen alle `root`-Rechte – es muss also jeweils ein `sudo` vorangestellt werden, das im Buch jedoch unterschlagen wurde.
+```diff
+- dmesg
++ sudo dmesg
+```
+
+#### 25.1 Partitionierung (S. 454)
+```diff
+- fdisk /dev/sda
++ sudo fdisk /dev/sda
+```
+
+#### 25.2 Dateisystem (S. 454)
+```diff
+- mkfs.ext4 /dev/sda1
++ sudo mkfs.ext4 /dev/sda1
+```
+
+#### 25.3 Ins System einbinden (S. 454 & 455)
+```diff
+- mkdir /mnt/neueplatte
++ sudo mkdir /mnt/neueplatte
+
+- mount -t ext4 /dev/sda1 /mnt/neueplatte
++ sudo mount -t ext4 /dev/sda1 /mnt/neueplatte
+```
+
+#### 25.4 Kopieren der Daten (S. 455)
+```diff
+- rsync -avzxS / /mnt/neueplatte
++ sudo rsync -avzxS / /mnt/neueplatte
+```
+Sie übertragen mit diesem Befehl das laufende System auf eine andere Partition; üblicherweise hat der folgende Hinweis keine negativen Auswirkungen auf den Vorgang – es kommt aber darauf an, *welche* Dateien nicht übertragen werden konnten.
+```
+rsync warning: some files vanished before they could be transferred (code 24) at main.c(1196) [sender=3.1.2]
+```
+
+#### 25.5 Anpassen der `cmdline.txt` (S. 455)
+```diff
+- Öffnen Sie also jetzt die Datei mit dem Editor Ihrer Wahl und ändern Sie...
++ Öffnen Sie also jetzt die Datei mit dem Editor Ihrer Wahl, stellen Sie dem Aufruf ein sudo voran und ändern Sie...
+```
+
+#### 25.6 Neustart
+```diff
+- Durch die Eingabe des Befehls reboot veranlassen Sie Ihr System final zum Neustart.
++ Durch die Eingabe des Befehls sudo reboot veranlassen Sie Ihr System final zum Neustart.
+
+- mount -o remount,ro /boot
++ sudo mount -o remount,ro /boot
+
+- touch /boot/test
++ sudo touch /boot/test
+
+- Öffnen Sie /etc/fstab mit dem Editor Ihrer Wahl.
++ Öffnen Sie /etc/fstab mit dem Editor Ihrer Wahl und stellen Sie dem Aufruf ein sudo voran, um die Datei mit root-Rechten bearbeiten zu können.
+
+- mount -o remount,rw /boot
++ sudo mount -o remount,rw /boot
+```
