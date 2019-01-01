@@ -46,6 +46,13 @@ Hier macht sich der Fehlerteufel in Form von Zeilentrennung bemerkbar – was na
 ```
 
 ### Kapitel 6
+#### 6.1.1 Die Items (S. 96)
+```diff
+- [...] und fügen Sie ihn in eine Datei namens Demohaus.items ein, die Sie in /etc/openhab/items ablegen:
++ [...] und fügen Sie ihn in eine Datei namens Demohaus.items ein, die Sie in /etc/openhab2/items ablegen:
+```
+<small>*(Dank an Daniel)*</small>
+
 #### Listing 6.19 (S. 129)
 ```diff
 rule "Status Summary Aktuell"
