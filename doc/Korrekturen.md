@@ -123,11 +123,11 @@ rule "Startverzoegerung"
 when
   System started
 then
-  - Startverzoegerung.sendCommand(OFF)
-  + Startverzoegerung.sendCommand(ON)
+-  Startverzoegerung.sendCommand(OFF)
++   Startverzoegerung.sendCommand(ON)
   createTimer(now.plusSeconds(60)) [|
-    - Startverzoegerung.sendCommand(ON)
-    + Startverzoegerung.sendCommand(OFF)
+-     Startverzoegerung.sendCommand(ON)
++     Startverzoegerung.sendCommand(OFF)
   ]  
 end
 ```
