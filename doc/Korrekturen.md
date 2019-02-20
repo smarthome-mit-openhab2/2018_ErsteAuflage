@@ -113,6 +113,25 @@ Text item=fbDslStatus label="FRITZ!Box [%s]" {
 ```
 <small>*(Dank an Michael G.)*</small>
 
+### Kapitel 22: Regelwerke oder Rules
+#### Listing 22.21
+*Dieses Item hat im laufenden Betrieb den Wert `OFF`, wird aber über ein Regelwerk beim Neustart des Systems für eine bestimmte Zeit auf `ON` gesetzt.*
+
+Leider wird es im Regelwerk dann genau anders herum dargestellt, deshalb hier nun die korrigierte Version:
+```diff
+rule "Startverzoegerung"
+when
+  System started
+then
+  - Startverzoegerung.sendCommand(OFF)
+  + Startverzoegerung.sendCommand(ON)
+  createTimer(now.plusSeconds(60)) [|
+    - Startverzoegerung.sendCommand(ON)
+    + Startverzoegerung.sendCommand(OFF)
+  ]  
+end
+```
+<small>*(Dank an Felix M.)*</small>
 
 ### Kapitel 25: Das System auf einer externen Platte betreiben (ab S. 453)
 <small>*(Dank an Thomas D.)*</small>
