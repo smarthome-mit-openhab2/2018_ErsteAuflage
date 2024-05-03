@@ -1,3 +1,5 @@
+*This repository is archived.*
+
 # Erste Auflage (September 2018)
 Hier ist das Material zur im September 2018 erschienenen ersten Auflage von „Smart Home mit openHAB 2“.
 
